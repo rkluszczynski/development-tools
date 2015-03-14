@@ -15,16 +15,16 @@ apply plugin: 'bintray-release'
 description = 'Alternative to ObjectMapper with secure signature.'
 version = '0.1.0'
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     compile 'com.google.guava:guava:18.0',
             'com.nimbusds:nimbus-jose-jwt:3.9',
             'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
 
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+}
+
+repositories {
+    mavenCentral()
 }
 
 publish {
