@@ -19,6 +19,7 @@ import java.security.SecureRandom
  */
 class SignedMessageTest extends Specification {
     private static KeyPair rsaKeyPair
+    private static String rsaMessageSignature
 
     private ObjectMapper objectMapper
     private SignedMessage signedMessage
@@ -27,13 +28,17 @@ class SignedMessageTest extends Specification {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(2048, new SecureRandom('fixedSeed'.bytes));
         rsaKeyPair = keyPairGenerator.generateKeyPair()
+
+        rsaMessageSignature = new SignedMessage(
+                header: new JWSHeader(JWSAlgorithm.RS256).toBase64URL().toString(),
+                content: new ObjectMapper().writeValueAsString(new TestData(id: "uuid"))
+        ).sign(new RSASSASigner(rsaKeyPair.private), new ObjectMapper())
     }
 
     def setup() {
         objectMapper = new ObjectMapper()
         signedMessage = new SignedMessage()
         signedMessage.content = objectMapper.writeValueAsString(data)
-
     }
 
     @Unroll
@@ -47,7 +52,7 @@ class SignedMessageTest extends Specification {
         where:
         jwsSigner                            | algorithm          | signature                    | description
         new MACSigner(SHARED_KEY.bytes)      | JWSAlgorithm.HS256 | SHARED_KEY_MESSAGE_SIGNATURE | 'Shared Key'
-        new RSASSASigner(rsaKeyPair.private) | JWSAlgorithm.RS256 | RSA_MESSAGE_SIGNATURE        | 'RSA'
+        new RSASSASigner(rsaKeyPair.private) | JWSAlgorithm.RS256 | rsaMessageSignature | 'RSA'
     }
 
     @Unroll
@@ -62,7 +67,7 @@ class SignedMessageTest extends Specification {
         where:
         jwsVerifier                           | algorithm          | signature                    | description
         new MACVerifier(SHARED_KEY.bytes)     | JWSAlgorithm.HS256 | SHARED_KEY_MESSAGE_SIGNATURE | "Shared Key"
-        new RSASSAVerifier(rsaKeyPair.public) | JWSAlgorithm.RS256 | RSA_MESSAGE_SIGNATURE        | 'RSA'
+        new RSASSAVerifier(rsaKeyPair.public) | JWSAlgorithm.RS256 | rsaMessageSignature | 'RSA'
     }
 
     private class TestData {
@@ -72,8 +77,4 @@ class SignedMessageTest extends Specification {
 
     private static final String SHARED_KEY = '01234567890123456789012345678901'
     private static final String SHARED_KEY_MESSAGE_SIGNATURE = 'Ex3AXSOet9K_-TVMUKdhd3fWvxuARHXU-y5RE1hYlUs'
-    private static final String RSA_MESSAGE_SIGNATURE = 'iaRjWbSH5GTQvFM-Xstq8E45nuOsgX3DkF2wDVTGjfYEPJt6Bm2j' +
-            '4WEdTzoWqkMVOn_jiyncK03AIEn58JUVQBiGAqLNPeNPHFVj_cb6ru-b_WlFfgLhnBPiUEduyKJEQcFMsAI0W0sg5dmXE8oo' +
-            'RSGJo6SyyQNseXxN2MXImDgLru819diYE_rjDTxFMP045Ui0d9fnh91IuoU8j_jIRPZLLxFzn2KN6TZpFB5vuluRflArEVW_' +
-            'XcTs3am3ymOSfEOarhLdVRcR5HVNjp6o9IdLPOlczkPSaaIru5Km6TYpTBBENF20a8Dz-AuSa_LaTHMpgyp4Euo7X9MMipA8cw'
 }
