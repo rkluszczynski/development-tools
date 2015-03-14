@@ -1,0 +1,34 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.novoda:bintray-release:0.2.7'
+    }
+}
+
+apply plugin: 'bintray-release'
+
+description = 'TODO'
+version = '0.1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.google.guava:guava:18.0'
+
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+}
+
+publish {
+    userOrg = project.userOrg
+    groupId = project.groupId
+    artifactId = project.name
+    version = project.version
+
+    description = project.description
+    website = "https://github.com/rkluszczynski/${rootProject.name}"
+}
