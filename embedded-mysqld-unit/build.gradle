@@ -18,7 +18,9 @@ repositories {
 }
 
 dependencies {
-    compile 'com.google.guava:guava:18.0'
+    compile 'mysql:mysql-connector-mxj:5.0.12',
+            'commons-io:commons-io:2.4',
+            'org.springframework:spring-jdbc:4.1.5.RELEASE'
 
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
 }
