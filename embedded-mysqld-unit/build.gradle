@@ -11,7 +11,7 @@ buildscript {
 apply plugin: 'bintray-release'
 
 description = 'Tool to run embedded MySQL database for unit/integration testing.'
-version = '0.1.0-SNAPSHOT'
+version = '0.1.1-SNAPSHOT'
 
 repositories {
     mavenCentral()
