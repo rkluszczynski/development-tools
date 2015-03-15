@@ -15,6 +15,9 @@ version = '0.1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    maven {
+        url  "http://dl.bintray.com/rkluszczynski/maven"
+    }
 }
 
 dependencies {
@@ -24,9 +27,11 @@ dependencies {
             'org.springframework:spring-context:4.1.5.RELEASE',
             'org.springframework:spring-jdbc:4.1.5.RELEASE'
 
-//    We need to use downloaded version 5.0.11 because of missing kill.exe
-//    file in mysql:mysql-connector-mxj:5.0.12 in maven central repo.
-    compile fileTree(dir: 'libs/', include: '*.jar')
+//    We need to use not latest version 5.0.11 because of missing kill.exe
+//    in mysql:mysql-connector-mxj-db-files:5.0.12 in maven central repo.
+    compile 'mysql:mysql-connector-mxj:5.0.11',
+            'mysql:mysql-connector-mxj-db-files:5.0.11'
+//    compile fileTree(dir: '3rd-party-libraries/', include: '*.jar')
 //    compile 'mysql:mysql-connector-mxj:5.0.12'
 
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
