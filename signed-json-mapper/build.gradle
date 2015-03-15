@@ -13,7 +13,7 @@ apply plugin: 'errorprone'
 apply plugin: 'bintray-release'
 
 description = 'Alternative to ObjectMapper with secure signature.'
-version = '0.1.0'
+version = '0.1.1-SNAPSHOT'
 
 dependencies {
     compile 'com.google.guava:guava:18.0',

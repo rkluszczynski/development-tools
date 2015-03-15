@@ -10,7 +10,7 @@ buildscript {
 
 apply plugin: 'bintray-release'
 
-description = 'TODO'
+description = 'Tool to run embedded MySQL database for unit/integration testing.'
 version = '0.1.0-SNAPSHOT'
 
 repositories {
@@ -22,10 +22,11 @@ repositories {
 
 dependencies {
     compile 'mysql:mysql-connector-java:5.1.27',
-            'org.codehaus.groovy:groovy-all:2.4.1',
             'commons-io:commons-io:2.4',
-            'org.springframework:spring-context:4.1.5.RELEASE',
-            'org.springframework:spring-jdbc:4.1.5.RELEASE'
+//            'org.springframework:spring-context:4.1.5.RELEASE',
+//            'org.springframework:spring-jdbc:4.1.5.RELEASE',
+            'org.codehaus.groovy:groovy-all:2.4.1',
+            'org.slf4j:slf4j-api:1.7.10'
 
 //    We need to use not latest version 5.0.11 because of missing kill.exe
 //    in mysql:mysql-connector-mxj-db-files:5.0.12 in maven central repo.

@@ -1,11 +1,9 @@
-package pl.info.rkluszczynski.tools.mysql;
+package pl.info.rkluszczynski.tools.mysql
 
-/*
-    Based on awesome post:
-
-    http://zhentao-li.blogspot.com/2013/06/using-embedded-mysql-database-for-unit.html
+/** Based on awesome post:
+ *   http://zhentao-li.blogspot.com/2013/06/using-embedded-mysql-database-for-unit.html
  */
-public class EmbeddedMysqlDatabaseBuilder {
+class EmbeddedMysqlDatabaseBuilder {
 //    private static final Logger LOG = LoggerFactory.getLogger(EmbeddedMysqlDatabaseBuilder.class);
 //
 //    private final String baseDatabaseDir = System.getProperty("java.io.tmpdir");
