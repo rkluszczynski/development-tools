@@ -9,7 +9,11 @@ class ShowDatabasesJdbcQuery {
         Class.forName("com.mysql.jdbc.Driver");
         def result = []
 
-        Connection connection = DriverManager.getConnection(server.getJdbcUrl(), 'root', '')
+        Connection connection = DriverManager.getConnection(
+                server.getJdbcUrl(),
+                server.getUsername(),
+                server.getPassword()
+        )
         Statement statement = connection.createStatement()
         ResultSet resultSet = statement.executeQuery('SHOW DATABASES;')
 

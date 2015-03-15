@@ -2,21 +2,22 @@ package pl.info.rkluszczynski.tools.mysql
 
 import com.mysql.management.MysqldResource
 import com.mysql.management.MysqldResourceI
+import groovy.transform.PackageScope
 import org.apache.commons.io.FileUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 class EmbeddedMysqlServer {
-    private final String baseDatabaseDir = System.getProperty('java.io.tmpdir')
-    private final String databaseName
-    private final int port
-    private final String username
-    private final String password
+    private final def baseDir = System.getProperty('java.io.tmpdir')
+    private final def database
+    private final def port
+    private final def username
+    private final def password
 
     private MysqldResource mysqldResource
 
-    private EmbeddedMysqlServer(builder) {
-        this.databaseName = builder.databaseName
+    @PackageScope EmbeddedMysqlServer(builder) {
+        this.database = builder.databaseName
         this.port = builder.port
         this.username = builder.username
         this.password = builder.password
@@ -25,8 +26,8 @@ class EmbeddedMysqlServer {
     synchronized def start() {
         if (logger.isDebugEnabled()) {
             logger.debug('=============== Starting Embedded MySQL ===============')
-            logger.debug(' baseDatabaseDir : {}', baseDatabaseDir)
-            logger.debug('    databaseName : {}', databaseName)
+            logger.debug('         baseDir : {}', baseDir)
+            logger.debug('        database : {}', database)
             logger.debug('            host : localhost')
             logger.debug('            port : {}', port)
             logger.debug('        username : {}', username)
@@ -36,7 +37,7 @@ class EmbeddedMysqlServer {
         Map<String, String> databaseOptions = new HashMap<String, String>()
         databaseOptions.put(MysqldResourceI.PORT, Integer.toString(port))
 
-        mysqldResource = new MysqldResource(new File(baseDatabaseDir, databaseName))
+        mysqldResource = new MysqldResource(new File(baseDir, database))
         mysqldResource.start("embedded-mysqld-thread-${System.currentTimeMillis()}", databaseOptions)
 
         if (!isRunning()) {
@@ -52,7 +53,7 @@ class EmbeddedMysqlServer {
     synchronized def shutdown() {
         mysqldResource?.shutdown()
         if (!isRunning()) {
-            logger.info('=============== Deleting embedded MySQL base dir : {}', mysqldResource.getBaseDir())
+            logger.info('Deleting embedded MySQL base directory : {}', mysqldResource.getBaseDir())
             try {
                 FileUtils.forceDelete(mysqldResource.getBaseDir())
             } catch (IOException e) {
@@ -63,6 +64,18 @@ class EmbeddedMysqlServer {
 
     def getJdbcUrl() {
         return "jdbc:mysql://localhost:$port"
+    }
+
+    def getDatabaseName() {
+        return database
+    }
+
+    def getUsername() {
+        return username
+    }
+
+    def getPassword() {
+        return password
     }
 
     private static final Logger logger = LoggerFactory.getLogger(EmbeddedMysqlServer.class)
