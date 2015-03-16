@@ -1,4 +1,4 @@
-package pl.info.rkluszczynski.tools.mysql
+package pl.info.rkluszczynski.tools.mysql;
 
 class EmbeddedMysqlDatabase {
 //class EmbeddedMysqlDatabase extends DriverManagerDataSource {
