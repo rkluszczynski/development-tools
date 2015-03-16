@@ -1,36 +1,36 @@
 package pl.info.rkluszczynski.tools.mysql
 
 class EmbeddedMysqlServerBuilder {
-    private def databaseName = 'test_db'
-    private def port = 3306
-    private def username = 'root'
-    private def password = ''
+    private String databaseName = 'test_db'
+    private int port = 3306
+    private String username = 'root'
+    private String password = ''
 
-    def withDatabaseName(databaseName) {
+    EmbeddedMysqlServerBuilder withDatabaseName(String databaseName) {
         this.databaseName = databaseName
         return this
     }
 
-    def withPort(port) {
+    EmbeddedMysqlServerBuilder withPort(int port) {
         this.port = port
         return this
     }
 
-    def withUsername(username) {
+    EmbeddedMysqlServerBuilder withUsername(String username) {
         this.username = username
         return this
     }
 
-    def withPassword(password) {
+    EmbeddedMysqlServerBuilder withPassword(String password) {
         this.password = password
         return this
     }
 
-    def build() {
+    EmbeddedMysqlServer build() {
         return new EmbeddedMysqlServer(this);
     }
 
-    static def newInstance() {
+    static EmbeddedMysqlServerBuilder newInstance() {
         return new EmbeddedMysqlServerBuilder()
     }
 }

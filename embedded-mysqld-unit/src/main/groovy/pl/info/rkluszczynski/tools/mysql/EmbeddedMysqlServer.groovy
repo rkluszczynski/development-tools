@@ -8,22 +8,23 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 class EmbeddedMysqlServer {
-    private final def baseDir = System.getProperty('java.io.tmpdir')
-    private final def database
-    private final def port
-    private final def username
-    private final def password
+    private final String baseDir = System.getProperty('java.io.tmpdir')
+    private final String database
+    private final int port
+    private final String username
+    private final String password
 
     private MysqldResource mysqldResource
 
-    @PackageScope EmbeddedMysqlServer(builder) {
+    @PackageScope
+    EmbeddedMysqlServer(builder) {
         this.database = builder.databaseName
         this.port = builder.port
         this.username = builder.username
         this.password = builder.password
     }
 
-    synchronized def start() {
+    synchronized void start() {
         if (logger.isDebugEnabled()) {
             logger.debug('=============== Starting Embedded MySQL ===============')
             logger.debug('         baseDir : {}', baseDir)
@@ -46,11 +47,11 @@ class EmbeddedMysqlServer {
         logger.info('MySQL started successfully @ {}', System.currentTimeMillis())
     }
 
-    synchronized def isRunning() {
+    synchronized boolean isRunning() {
         return mysqldResource != null && mysqldResource.isRunning()
     }
 
-    synchronized def shutdown() {
+    synchronized void shutdown() {
         mysqldResource?.shutdown()
         if (!isRunning()) {
             logger.info('Deleting embedded MySQL base directory : {}', mysqldResource.getBaseDir())
@@ -62,19 +63,19 @@ class EmbeddedMysqlServer {
         }
     }
 
-    def getJdbcUrl() {
+    String getJdbcUrl() {
         return "jdbc:mysql://localhost:$port"
     }
 
-    def getDatabaseName() {
+    String getDatabaseName() {
         return database
     }
 
-    def getUsername() {
+    String getUsername() {
         return username
     }
 
-    def getPassword() {
+    String getPassword() {
         return password
     }
 
